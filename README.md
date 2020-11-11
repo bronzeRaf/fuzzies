@@ -37,3 +37,19 @@ This project contains a set of functions and scripts that are able to control a 
 	- T = the variable of integration
 
 
+## fuzzycar
+This project contains a set of functions and scripts that are able to control an obstacle avoidance navigation of an automotive car. There is both a linear PI controller and a Fuzzy Logic PI controller, created with MATLAB. The controller obtains the angle to the X axis (Theta), the horizontal distance to the obstacle (Dh) and the vertical distance to the obstacle (Dv). It then calculates the theta diversion as an output. The theta domain as long as the output are divided into Negative (N), Zero (ZE) and Positive (P). The distances dh and dv are divided into Small (S), Medium (M) and Large (L). The decision is based on empirical rules provided by the human logic, presented in the following tables, one for each theta division:
+
+![Empirical rules of the output based on inputs](https://github.com/bronzeRaf/fuzzies/blob/main/fuzzycar/resources/rules1.PNG)
+![Empirical rules of the output based on inputs](https://github.com/bronzeRaf/fuzzies/blob/main/fuzzycar/resources/rules2.PNG)
+![Empirical rules of the output based on inputs](https://github.com/bronzeRaf/fuzzies/blob/main/fuzzycar/resources/rules3.PNG)
+
+
+#### To run the project features use the following...
+- You can obtain the closed loop transfer function "g" and its "poles" in your workspace after running the code of the "simulateCar.m" script.
+
+- You can obtain the Fuzzy Logic controller using:
+
+	``` flc = carController(); ```
+	- flc = the Fuzzy Logic Controller
+
