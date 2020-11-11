@@ -23,7 +23,6 @@ This project contains a set of functions and scripts that are able to control a 
 - You can obtain the closed loop transfer function "g" and its "poles" in your workspace after running the code of the "SatellitePI.m" script.
 
 - The file "model.slx" contains the Simulink system of the controller simulation. You can obtain the Fuzzy Logic controller using:
-
 	``` flc = createFLC(); ```
 	- flc = the Fuzzy Logic Controller
 
@@ -49,7 +48,55 @@ This project contains a set of functions and scripts that are able to control an
 - You can obtain the closed loop transfer function "g" and its "poles" in your workspace after running the code of the "simulateCar.m" script.
 
 - You can obtain the Fuzzy Logic controller using:
-
 	``` flc = carController(); ```
 	- flc = the Fuzzy Logic Controller
 
+
+## fuzzyNN
+This project contains a set of functions that are able to train and evaluate fuzzy interference systems to forward predict a chaotic series. Quite a few systems have been implemented in this library to be used and compare in several application. There are both 0 and 1 order systems trained by both through backpropagation and the hybrid method. A chaotic timeseries is given as an example in the "resources" folder with unpredictable behavior to apply a tough test to the systems in forward predictions. The functions are able to provide the learning curves and the prediction errors, by uncommenting the lines that the comments mention. The project also provides a function for preprocessing the data and a function for making the forward predictions.
+
+#### To run the project features use the following...
+- You can preprocess the data using:
+	``` [dataset, valueset, checkset, testset] = prepareData(path, old1, old2, old3, p); ```
+	- dataset = the training dataset for the chaotic series anfis
+	- valueset = the validation set used during training for the chaotic series anfis
+	- checkset = the check set for the chaotic series anfis
+	- testset = the test set for the chaotic series anfis
+	- path = the full path to the MATLAB saved workspace with the values of the Mackey-Glass differential equation
+	- old1 = number of samples backward for the first attribute
+	- old2 = number of samples backward for the second attribute
+	- old3 = number of samples backward for the third attribute
+	- p = number of samples forward for the class value
+
+- You can train the  0 or 1 order fuzzy interference systems with hybrid or backpropagation method using:
+	``` [fnnBP0,fnnHB0, fnnBP1, fnnHB1] = createFNN(dataset, valueset, checkset); ```
+	- fnnBP0 = 0 order fuzzy neural network using backpropagation
+	- fnnHB0 = 0 order fuzzy neural network using hybrid method
+	- fnnBP1 = 1 order fuzzy neural network using backpropagation
+	- fnnHB1 = 1 order fuzzy neural network using hybrid method
+	- dataset = the training dataset for the chaotic series anfis
+	- valueset = the validation set used during training for the chaotic series anfis
+	- checkset = the check set for the chaotic series anfis
+
+- You can train the 1 order fuzzy interference systems with hybrid method initialized with Grid Partitioning using:
+	``` [fnn1, fnn2] = makeTSKhb(dataset, valueset, checkset); ```
+	- fnn1 = 1 order fuzzy neural network using hybrid method trained with least MSE on the dataset
+	- fnn2 = 1 order fuzzy neural network using hybrid method trained with least MSE on the valueset
+	- dataset = the training dataset for the chaotic series anfis
+	- valueset = the validation set used during training for the chaotic series anfis
+	- checkset = the check set for the chaotic series anfis
+
+- You can train the 1 order fuzzy interference systems with hybrid method initialized with Substractive Clustering using:
+	``` [fnn1, fnn2] = makeSC(dataset, valueset, checkset); ```
+	- fnn1 = 1 order fuzzy neural network using hybrid method trained with least MSE on the dataset
+	- fnn2 = 1 order fuzzy neural network using hybrid method trained with least MSE on the valueset
+	- dataset = the training dataset for the chaotic series anfis
+	- valueset = the validation set used during training for the chaotic series anfis
+	- checkset = the check set for the chaotic series anfis
+
+- You can make forward prediction on data, evaluating the fuzzy interference system using:
+	``` predFW = forwardPred(set, fis); ```
+	- predFW = 200 sets of 16 forward prediction for data
+	- set = the data for the prediction
+	- fis = the fuzzy interference system to be used
+	
